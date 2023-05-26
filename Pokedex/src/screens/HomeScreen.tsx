@@ -1,11 +1,10 @@
-import { View, Text, FlatList, Image, ActivityIndicator, } from 'react-native'
-import React from 'react'
+import { View, Text, FlatList, Image, ActivityIndicator, SafeAreaView, } from 'react-native'
+import React, { memo } from 'react'
 import { useSafeAreaInsets  } from 'react-native-safe-area-context'
 
-import { styles } from '../theme/appTheme'
+import { COLORS, IMAGES } from '../theme/appTheme'
 import { usePokemon } from '../hooks/usePokemon'
 import PokemonCard from '../components/PokemonCard'
-
 
 const HomeScreen = () => {
 
@@ -13,14 +12,9 @@ const HomeScreen = () => {
   const { pokemons, isLoading, loadPokemons } = usePokemon();
 
   return (
-    <>
-      <Image 
-        source={{uri: 'https://www.pngkit.com/png/detail/156-1564723_pokeball-nikumaroro-island.png'}}
-        style={styles.pokebolaBg}
-      />
-
+    <SafeAreaView style={{flex: 1, backgroundColor: COLORS.white}}>
       <View style={{
-        alignItems: 'center'
+        alignItems: 'center',
       }}>
         <FlatList 
           data={pokemons}
@@ -29,13 +23,23 @@ const HomeScreen = () => {
           numColumns={2}
 
           ListHeaderComponent={(
-            <Text style={{
-              ...styles.titleHome,
-              ...styles.globalMargin,
-              top: top + 20,
-              marginBottom: top + 20,
-              paddingBottom: 10
-            }}>Pokedex</Text>
+            <View style={{
+              alignItems: 'center', 
+              justifyContent: 'center',
+              backgroundColor: 'white',
+              padding: 10,
+              marginBottom: 5
+            }}>
+              <Image 
+                source={IMAGES.titleHeader}
+                style={{
+                  width: 160,
+                  height: 60
+                }}
+                resizeMode='contain'
+              />
+              
+            </View>
           )}
 
           renderItem={ ({ item, index }) => <PokemonCard pokemon={item} key={index} /> }
@@ -54,7 +58,7 @@ const HomeScreen = () => {
         />
       </View>
 
-    </>
+    </SafeAreaView>
   )
 }
 

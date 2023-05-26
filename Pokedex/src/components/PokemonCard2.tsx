@@ -8,10 +8,11 @@ import { FadeInImage } from './FadeInImage';
 const { width } = Dimensions.get("window");
 
 interface Props {
-  pokemon: Pokemon
+  pokemon: Pokemon,
+  index: any
 }
 
-const PokemonCard = ({ pokemon }: Props) => {
+const PokemonCard2 = ({ pokemon, index }: Props) => {
 
   const [bgColor, setBgColor] = useState('grey');
 
@@ -29,6 +30,7 @@ const PokemonCard = ({ pokemon }: Props) => {
         }
       })
   },[]);*/
+  console.log(index);
 
   return (
     <TouchableOpacity
@@ -36,16 +38,42 @@ const PokemonCard = ({ pokemon }: Props) => {
     >
       <View style={{
         ...styles.cardContainer,
-        backgroundColor: bgColor
+        backgroundColor: bgColor,
       }}>
 
-        {/* Nombre del Pokemon y ID */}
-        <View>
-          <Text style={styles.namePokemon}>
-            {pokemon.name}
-            { '\n#' + pokemon.id}
-          </Text>
-        </View>
+        
+
+        {
+          index % 2 ? (
+            <>
+              {/* Nombre del Pokemon y ID */}
+              <View>
+                <Text style={styles.namePokemonL}>
+                  {pokemon.name}
+                  { '\n#' + pokemon.id}
+                </Text>
+                <FadeInImage 
+                  uri={pokemon.picture}
+                  style={styles.pictureR}
+                />
+              </View>
+            </>
+          ) : (
+            <>
+              {/* Nombre del Pokemon y ID */}
+              <View>
+                <Text style={styles.namePokemonR}>
+                  {pokemon.name}
+                  { '\n#' + pokemon.id}
+                </Text>
+                <FadeInImage 
+                  uri={pokemon.picture}
+                  style={styles.pictureL}
+                />
+              </View>
+            </>
+          )
+        }
 
         {/* <Image 
           source={{uri: 'https://www.pngkit.com/png/detail/156-1564723_pokeball-nikumaroro-island.png'}}
@@ -54,11 +82,6 @@ const PokemonCard = ({ pokemon }: Props) => {
             height: 50
           }}
         /> */}
-
-        <FadeInImage 
-          uri={pokemon.picture}
-          style={styles.picture}
-        />
 
       </View>
 
@@ -70,25 +93,38 @@ const styles = StyleSheet.create({
   cardContainer: {
     marginHorizontal: 10,
     height: 120,
-    width: width * 0.4,
+    width: width * 0.8,
     marginBottom: 25,
     borderRadius: 10,
     elevation: 2
   },
-  namePokemon: {
+  namePokemonL: {
     color: 'white',
-    fontSize: 17,
+    fontSize: 20,
     fontWeight: 'bold',
-    top: 5, left: 10
+    top: 20, left: 10
   },
-  picture: {
-    width: 110,
-    height: 110,
+  namePokemonR: {
+    color: 'white',
+    fontSize: 20,
+    fontWeight: 'bold',
+    top: 20, right: -190
+  },
+  pictureR: {
+    width: 150,
+    height: 150,
     position: 'absolute',
-    right: -8,
-    bottom: -9,
+    right: -5,
+    bottom: -50,
+  },
+   pictureL: {
+    width: 150,
+    height: 150,
+    position: 'absolute',
+    left: -5,
+    bottom: -50,
   }
 });
 
 
-export default PokemonCard
+export default PokemonCard2
