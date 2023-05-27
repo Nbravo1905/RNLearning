@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions, Image, Platform } from 'react-native'
-//import { getColors } from 'react-native-image-colors'
+import { getColors } from 'react-native-image-colors'
 
-import { Pokemon } from '../interfaces/pokemonInterface'
-import { FadeInImage } from './FadeInImage';
+import { Pokemon } from '../../interfaces/pokemonInterface'
+import { FadeInImage } from '../FadeInImage';
 
 const { width } = Dimensions.get("window");
 
@@ -14,21 +14,30 @@ interface Props {
 const PokemonCard = ({ pokemon }: Props) => {
 
   const [bgColor, setBgColor] = useState('grey');
+  const isMounted = useRef(true);
 
-  /*useEffect(() => {
+  useEffect(() => {
     getColors(pokemon.picture, { fallback: 'grey'})
       .then( colors => {
+
+        if( !isMounted.current ) return;
+        
         switch (colors.platform) {
           case 'android':
             setBgColor(colors.dominant || 'grey');
             break;
           case 'ios':
-            setBgColor(colors.background || 'grey');
+            setBgColor(colors.primary || 'grey');
           default:
             break;
         }
+
       })
-  },[]);*/
+
+    return () => {
+      isMounted.current = false;
+    }
+  },[]);
 
   return (
     <TouchableOpacity
